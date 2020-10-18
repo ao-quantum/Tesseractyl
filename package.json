@@ -1,0 +1,26 @@
+{
+  "name": "tesseractyl",
+  "version": "1.0.0",
+  "description": "A API Wrapper for Pterodactyl Panel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "types": "npx typescript src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debakash/Tesseractyl.git"
+  },
+  "author": "Akash Deb and Aditya Das",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/debakash/Tesseractyl/issues"
+  },
+  "homepage": "https://github.com/debakash/Tesseractyl#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  }
+}
