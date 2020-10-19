@@ -19,7 +19,7 @@
 ## Install
 
 ```sh
-npm install
+Coming Soon
 ```
 
 ## Author
