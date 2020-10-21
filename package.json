@@ -13,6 +13,16 @@
   "keywords": [],
   "author": "Akash Deb & Aditya Das",
   "license": "MIT",
+  "maintainers": [
+    {
+      "email": "killinggamer4mc@gmail.com",
+      "name": "Aditya Das",
+      "url": "https://quantumsoul.xyz"
+    },
+    {
+      "name": "Akash Deb"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/debakash/Tesseractyl/issues"
   },
