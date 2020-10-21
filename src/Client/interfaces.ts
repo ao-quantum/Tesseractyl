@@ -65,7 +65,7 @@ export interface ServerAttributes {
 
 export interface Server {
     object: 'server',
-    attributes: ServerAttributes
+    data: ServerAttributes
 }
 
 export interface SystemPermissionsAttributes {
