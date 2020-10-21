@@ -9,8 +9,8 @@ export function getServers(url: string, apikey: string): Promise<Server> {
                 "Authorization": `Bearer ${apikey}`
             },
             method: "GET"
-        }).then(res => res.json()).then(js => {
-            return resolve(js)
+        }).then(res => res.json()).then(perms => {
+            return resolve(perms)
         }).catch(reject)
     });
 }
