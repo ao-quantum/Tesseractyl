@@ -1,6 +1,7 @@
 import {getServers} from './servers/getServers';
 import {getPermissions} from './servers/getPermissions';
-import {ServerAttributes, SystemPermissionsAttributes} from './interfaces';
+import {SystemPermissionsAttributes} from './interfaces';
+import { Server } from './classes/Server';
 
 export class Client {
     protected readonly apikey: string;
@@ -12,10 +13,10 @@ export class Client {
         return this;
     }
 
-    public getServers(): Promise<ServerAttributes> {
+    public getServers(): Promise<Server[]> {
         return new Promise((resolve, reject) => {
             getServers(this.url, this.apikey).then(json => {
-                resolve(json.data)
+                return resolve(json);
             }).catch(reject)
         })
     }
