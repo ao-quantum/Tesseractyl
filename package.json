@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/debakash/Tesseractyl#readme",
   "dependencies": {
+    "@discordjs/collection": "^0.1.6",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {

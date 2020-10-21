@@ -1,7 +1,8 @@
 import {getServers} from './servers/getServers';
 import {getPermissions} from './servers/getPermissions';
-import {SystemPermissionsAttributes} from './interfaces';
+import {ServerAttributes, SystemPermissionsAttributes} from './interfaces';
 import { Server } from './classes/Server';
+import Collection from '@discordjs/collection';
 
 export class Client {
     protected readonly apikey: string;
@@ -13,7 +14,7 @@ export class Client {
         return this;
     }
 
-    public getServers(): Promise<Server[]> {
+    public getServers(): Promise<Collection<string, Server>> {
         return new Promise((resolve, reject) => {
             getServers(this.url, this.apikey).then(json => {
                 return resolve(json);

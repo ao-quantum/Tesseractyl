@@ -1,8 +1,9 @@
+import Collection from '@discordjs/collection';
 import * as fetch from 'node-fetch'
 import { Server } from '../classes/Server';
-import {ServerInterface} from '../interfaces';
+import {ServerAttributes, ServerInterface} from '../interfaces';
 
-export function getServers(url: string, apikey: string): Promise<Server[]> {
+export function getServers(url: string, apikey: string): Promise<Collection<string, Server>> {
     return new Promise((resolve, reject) => {
         fetch.default(`${url}/api/client`, {
             headers: {
@@ -11,9 +12,10 @@ export function getServers(url: string, apikey: string): Promise<Server[]> {
             },
             method: "GET"
         }).then(res => res.json()).then(res => {
-            let servers: Array<Server> = []
+            let servers: Collection<string, Server> = new Collection();
             res.data.forEach((server: ServerInterface) => {
-                servers.push(new Server(server.attributes.uuid, url, apikey));
+                //servers.push(new Server(server.attributes.uuid, url, apikey));
+                servers.set(server.attributes.uuid, new Server(server.attributes.uuid, url, apikey))
             });
             return resolve(servers);
         }).catch(reject)
