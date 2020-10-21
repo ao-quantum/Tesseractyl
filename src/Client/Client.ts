@@ -15,7 +15,7 @@ export class Client {
     public getServers(): Promise<ServerAttributes> {
         return new Promise((resolve, reject) => {
             getServers(this.url, this.apikey).then(json => {
-                resolve(json.attributes)
+                resolve(json.data)
             }).catch(reject)
         })
     }
