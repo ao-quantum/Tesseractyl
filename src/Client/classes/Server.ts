@@ -11,8 +11,8 @@ export class Server {
 
     constructor(uuid: string, url: string, apikey: string) {
         this.uuid = uuid;
-        this.url = url;
-        this.apikey = `${url}/api/client/servers/${this.uuid}`;
+        this.url = `${url}/api/client/servers/${this.uuid}`;
+        this.apikey = apikey;
         this.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
