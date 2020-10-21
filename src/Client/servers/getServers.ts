@@ -1,7 +1,7 @@
 import * as fetch from 'node-fetch'
-import {Server} from '../interfaces';
+import {ServerInterface} from '../interfaces';
 
-export function getServers(url: string, apikey: string): Promise<Server> {
+export function getServers(url: string, apikey: string): Promise<ServerInterface> {
     return new Promise((resolve, reject) => {
         fetch.default(`${url}/api/client`, {
             headers: {
