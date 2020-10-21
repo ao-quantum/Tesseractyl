@@ -63,7 +63,7 @@ export interface ServerAttributes {
     }
 }
 
-export interface Server {
+export interface ServerInterface {
     object: 'server',
     data: ServerAttributes
 }
