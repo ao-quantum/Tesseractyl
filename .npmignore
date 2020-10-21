@@ -3,3 +3,5 @@ test/
 .prettierrc
 tsconfig.json
 tslint.json
+test.js
+jest.config.js
