@@ -1,3 +1,30 @@
+export interface ServerAllocationAttributes {
+    id: number,
+    ip: string,
+    ip_alias: string | null,
+    port: number,
+    notes: string | null,
+    is_default: boolean
+}
+export interface ServerAllocationsData {
+    object: 'allocation',
+    attributes: ServerAllocationAttributes
+}
+
+export interface ServerVariableAttributes {
+    name: string,
+    description: string,
+    env_variable: string,
+    default_value: string,
+    server_value: string,
+    is_editable: boolean,
+    rules: string
+}
+export interface ServerVariablesData {
+    object: 'egg_variable',
+    attributes: ServerVariableAttributes
+}
+
 export interface ServerAttributes {
     server_owner: boolean,
     identifier: string,
@@ -25,8 +52,14 @@ export interface ServerAttributes {
     is_suspended: boolean,
     is_installing: boolean,
     relationships: {
-        allocations: [Object],
-        variables: [Object]
+        allocations: {
+            object: 'list',
+            data: ServerAllocationsData[]
+        },
+        variables: {
+            object: 'list',
+            data: ServerVariablesData[]
+        }
     }
 }
 
