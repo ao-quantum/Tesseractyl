@@ -67,3 +67,22 @@ export interface Server {
     object: 'server',
     attributes: ServerAttributes
 }
+
+export interface SystemPermissionsAttributes {
+    permissions: {
+        websocket: [Object],
+        control: [Object],
+        user: [Object],
+        file: [Object],
+        backup: [Object],
+        allocation: [Object],
+        startup: [Object],
+        database: [Object],
+        schedule: [Object],
+        settings: [Object]
+    }
+}
+export interface SystemPermissions {
+    object: 'system_permissions',
+    attributes: SystemPermissionsAttributes
+}
