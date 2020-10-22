@@ -12,10 +12,10 @@ export class Server {
     };
     public readonly attributes;
 
-    constructor(uuid: string, url: string, apikey: string, data: ServerAttributes) {
+    constructor(uuid: string, url: string, apiKey: string, data: ServerAttributes) {
         this.uuid = uuid;
         this.url = `${url}/api/client/servers/${this.uuid}`;
-        this.apikey = apikey;
+        this.apikey = apiKey;
         this.headers = {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -38,11 +38,11 @@ export class Server {
                         Authorization: `Bearer ${this.apikey}`
                     },
                     body: JSON.stringify({
-                        command: command
+                        command: `${command}`
                     })
                 })
                 .then(async (res) => {
-                    if (res.status == 204) {
+                    if (res.status === 204) {
                         return resolve(true);
                     } else {
                         return reject(await res.json());
@@ -63,11 +63,11 @@ export class Server {
                         Authorization: `Bearer ${this.apikey}`
                     },
                     body: JSON.stringify({
-                        signal: signal
+                        signal: `${signal}`
                     })
                 })
                 .then(async (res) => {
-                    if (res.status == 204) {
+                    if (res.status === 204) {
                         return resolve(true);
                     } else {
                         return reject(await res.json());
@@ -86,11 +86,11 @@ export class Server {
                     method: "POST",
                     headers: this.headers,
                     body: JSON.stringify({
-                        name: name
+                        name: `${name}`
                     })
                 })
                 .then(async (res) => {
-                    if (res.status == 204) {
+                    if (res.status === 204) {
                         return resolve(true);
                     } else {
                         return reject(await res.json());
@@ -108,7 +108,7 @@ export class Server {
                     headers: this.headers
                 })
                 .then(async (res) => {
-                    if (res.status == 204) {
+                    if (res.status === 204) {
                         return resolve(true);
                     } else {
                         return reject(await res.json());
@@ -127,9 +127,9 @@ export class Server {
                     headers: this.headers
                 })
                 .then(async (res) => {
-                    if (res.status == 200) {
-                        let json = await res.json();
-                        let collection: Collection<string, Database> = new Collection();
+                    if (res.status === 200) {
+                        const json = await res.json();
+                        const collection: Collection<string, Database> = new Collection();
                         json.data.forEach((db: DatabaseInterface) => {
                             collection.set(
                                 db.attributes.id,
@@ -137,8 +137,32 @@ export class Server {
                             );
                         });
                         return resolve(collection);
+                    } else {
+                        const json = await res.json();
+                        return reject(json)
                     }
-                });
+                }).catch(reject);
         });
+    }
+
+    public createDatabase(name: string, allowedHosts?: string): Promise<Database | Object> {
+        return new Promise((resolve, reject) => {
+            fetch.default(`${this.url}/databases`, {
+                method: 'POST', 
+                headers: this.headers,
+                body: JSON.stringify({
+                    database: `${name}`,
+                    remote: `${allowedHosts ? `${allowedHosts}` : `%`}`
+                })
+            }).then(async res => {
+                if (res.status === 200) {
+                    const db: DatabaseInterface = await res.json();
+                    return resolve(new Database(this.uuid, db.attributes.id, this.url, this.apikey, db.attributes));
+                } else {
+                    const json = await res.json();
+                    return reject(json)
+                }
+            }).catch(reject)
+        })
     }
 }

@@ -11,11 +11,11 @@ export class Database {
     };
     public readonly attributes;
 
-    constructor(server_id: string, database_id: string, server_url: string, apikey: string, data: DatabaseAttributes) {
-        this.serverid = server_id;
-        this.id = database_id;
-        this.url = `${server_url}/databases/${database_id}`;
-        this.apikey = apikey;
+    constructor(serverId: string, databaseId: string, serverURL: string, apiKey: string, data: DatabaseAttributes) {
+        this.serverid = serverId;
+        this.id = databaseId;
+        this.url = `${serverURL}/databases/${databaseId}`;
+        this.apikey = apiKey;
         this.headers = {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -33,11 +33,11 @@ export class Database {
                     headers: this.headers
                 })
                 .then(async (res) => {
-                    if (res.status == 200) {
-                        let json = await res.json();
+                    if (res.status === 200) {
+                        const json = await res.json();
                         return resolve(json.attributes.relationships.password.attributes.password);
                     } else {
-                        let json = await res.json();
+                        const json = await res.json();
                         return reject(json);
                     }
                 })
@@ -53,10 +53,10 @@ export class Database {
                     headers: this.headers
                 })
                 .then(async (res) => {
-                    if (res.status == 204) {
+                    if (res.status === 204) {
                         return resolve(true);
                     } else {
-                        let json = await res.json();
+                        const json = await res.json();
                         return reject(json);
                     }
                 })
