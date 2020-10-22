@@ -1,6 +1,25 @@
 /**
+ * 
+ * Server Variables
+ * 
+ */
+export interface ServerVariableAttributes {
+    name: string;
+    description: string;
+    env_variable: string;
+    default_value: string;
+    server_value: string;
+    is_editable: boolean;
+    rules: string;
+}
+export interface ServerVariablesData {
+    object: "egg_variable";
+    attributes: ServerVariableAttributes;
+}
+
+/**
  *
- * Server Interfaces
+ * Server allocation interfaces
  *
  */
 export interface ServerAllocationAttributes {
@@ -16,20 +35,11 @@ export interface ServerAllocationsData {
     attributes: ServerAllocationAttributes;
 }
 
-export interface ServerVariableAttributes {
-    name: string;
-    description: string;
-    env_variable: string;
-    default_value: string;
-    server_value: string;
-    is_editable: boolean;
-    rules: string;
-}
-export interface ServerVariablesData {
-    object: "egg_variable";
-    attributes: ServerVariableAttributes;
-}
-
+/**
+ * 
+ * Server interfaces
+ * 
+ */
 export interface ServerAttributes {
     server_owner: boolean;
     identifier: string;
@@ -118,4 +128,25 @@ export interface DatabaseAttributes {
 export interface DatabaseInterface {
     object: "server_database";
     attributes: DatabaseAttributes;
+}
+
+/**
+ * 
+ * Backup interfaces
+ * 
+ */
+
+export interface BackupAttributes {
+    uuid: string,
+    name: string,
+    ignored_files: string[],
+    sha256_hash: string,
+    bytes: number,
+    created_at: string,
+    completed_at: string
+}
+
+export interface BackupInterface {
+    object: "backup",
+    attributes: BackupAttributes
 }
