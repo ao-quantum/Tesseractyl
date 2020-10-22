@@ -1,4 +1,4 @@
-import { DatabaseInterface, ServerAllocationsData, ServerAttributes, ServerVariablesData } from "../interfaces";
+import { DatabaseInterface, ServerAllocationsData, ServerAttributes, ServerVariableAttributes, ServerVariablesData } from "../interfaces";
 import * as fetch from "node-fetch";
 import Collection from "@discordjs/collection";
 import { Database } from "./Database";
@@ -165,4 +165,63 @@ export class Server {
             }).catch(reject)
         })
     }
+
+    // Startup paths
+
+    public getVariables(): Promise<ServerVariableAttributes[]> {
+        return new Promise((resolve, reject) => {
+            fetch.default(`${this.url}/startup`, {
+                method: 'GET',
+                headers: this.headers
+            }).then(async res => {
+                const json = await res.json();
+                if (res.status === 200) {
+                    const vars: ServerVariableAttributes[] = [];
+                    json.data.forEach((variable: ServerVariablesData) => {
+                        vars.push(variable.attributes);
+                    })
+                    return resolve(vars);
+                } else {
+                    return reject(json)
+                }
+            }).catch(reject)
+        })
+    }
+
+    public getStartCommand(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            fetch.default(`${this.url}/startup`, {
+                method: 'GET',
+                headers: this.headers
+            }).then(async res => {
+                const json = await res.json();
+                if (res.status === 200) {
+                    return resolve(json.meta.startup_command);
+                } else {
+                    return reject(json)
+                }
+            }).catch(reject)
+        })
+    }
+
+    public getStartCommandRaw(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            fetch.default(`${this.url}/startup`, {
+                method: 'GET',
+                headers: this.headers
+            }).then(async res => {
+                const json = await res.json();
+                if (res.status === 200) {
+                    return resolve(json.meta.raw_startup_command);
+                } else {
+                    return reject(json)
+                }
+            }).catch(reject)
+        })
+    }
+
+    // Backups
+
+    
+
 }
