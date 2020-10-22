@@ -1,6 +1,6 @@
 {
   "name": "tesseractyl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The simplified, promise based Pterodactyl API Wrapper for Node.js, without any hassle.",
   "main": "lib/index.js",
   "files": [
