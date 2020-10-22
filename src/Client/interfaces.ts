@@ -1,7 +1,7 @@
 /**
- * 
+ *
  * Server Variables
- * 
+ *
  */
 export interface ServerVariableAttributes {
     name: string;
@@ -36,9 +36,9 @@ export interface ServerAllocationsData {
 }
 
 /**
- * 
+ *
  * Server interfaces
- * 
+ *
  */
 export interface ServerAttributes {
     server_owner: boolean;
@@ -131,22 +131,22 @@ export interface DatabaseInterface {
 }
 
 /**
- * 
+ *
  * Backup interfaces
- * 
+ *
  */
 
 export interface BackupAttributes {
-    uuid: string,
-    name: string,
-    ignored_files: string[],
-    sha256_hash: string,
-    bytes: number,
-    created_at: string,
-    completed_at: string
+    uuid: string;
+    name: string;
+    ignored_files: string[];
+    sha256_hash: string;
+    bytes: number;
+    created_at: string;
+    completed_at: string;
 }
 
 export interface BackupInterface {
-    object: "backup",
-    attributes: BackupAttributes
+    object: "backup";
+    attributes: BackupAttributes;
 }

@@ -1,4 +1,10 @@
-import { DatabaseInterface, ServerAllocationsData, ServerAttributes, ServerVariableAttributes, ServerVariablesData } from "../interfaces";
+import {
+    DatabaseInterface,
+    ServerAllocationsData,
+    ServerAttributes,
+    ServerVariableAttributes,
+    ServerVariablesData
+} from "../interfaces";
 import * as fetch from "node-fetch";
 import Collection from "@discordjs/collection";
 import { Database } from "./Database";
@@ -139,89 +145,99 @@ export class Server {
                         return resolve(collection);
                     } else {
                         const json = await res.json();
-                        return reject(json)
+                        return reject(json);
                     }
-                }).catch(reject);
+                })
+                .catch(reject);
         });
     }
 
     public createDatabase(name: string, allowedHosts?: string): Promise<Database | Object> {
         return new Promise((resolve, reject) => {
-            fetch.default(`${this.url}/databases`, {
-                method: 'POST', 
-                headers: this.headers,
-                body: JSON.stringify({
-                    database: `${name}`,
-                    remote: `${allowedHosts ? `${allowedHosts}` : `%`}`
+            fetch
+                .default(`${this.url}/databases`, {
+                    method: "POST",
+                    headers: this.headers,
+                    body: JSON.stringify({
+                        database: `${name}`,
+                        remote: `${allowedHosts ? `${allowedHosts}` : `%`}`
+                    })
                 })
-            }).then(async res => {
-                if (res.status === 200) {
-                    const db: DatabaseInterface = await res.json();
-                    return resolve(new Database(this.uuid, db.attributes.id, this.url, this.apikey, db.attributes));
-                } else {
-                    const json = await res.json();
-                    return reject(json)
-                }
-            }).catch(reject)
-        })
+                .then(async (res) => {
+                    if (res.status === 200) {
+                        const db: DatabaseInterface = await res.json();
+                        return resolve(new Database(this.uuid, db.attributes.id, this.url, this.apikey, db.attributes));
+                    } else {
+                        const json = await res.json();
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
     }
 
     // Startup paths
 
     public getVariables(): Promise<ServerVariableAttributes[]> {
         return new Promise((resolve, reject) => {
-            fetch.default(`${this.url}/startup`, {
-                method: 'GET',
-                headers: this.headers
-            }).then(async res => {
-                const json = await res.json();
-                if (res.status === 200) {
-                    const vars: ServerVariableAttributes[] = [];
-                    json.data.forEach((variable: ServerVariablesData) => {
-                        vars.push(variable.attributes);
-                    })
-                    return resolve(vars);
-                } else {
-                    return reject(json)
-                }
-            }).catch(reject)
-        })
+            fetch
+                .default(`${this.url}/startup`, {
+                    method: "GET",
+                    headers: this.headers
+                })
+                .then(async (res) => {
+                    const json = await res.json();
+                    if (res.status === 200) {
+                        const vars: ServerVariableAttributes[] = [];
+                        json.data.forEach((variable: ServerVariablesData) => {
+                            vars.push(variable.attributes);
+                        });
+                        return resolve(vars);
+                    } else {
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
     }
 
     public getStartCommand(): Promise<string> {
         return new Promise((resolve, reject) => {
-            fetch.default(`${this.url}/startup`, {
-                method: 'GET',
-                headers: this.headers
-            }).then(async res => {
-                const json = await res.json();
-                if (res.status === 200) {
-                    return resolve(json.meta.startup_command);
-                } else {
-                    return reject(json)
-                }
-            }).catch(reject)
-        })
+            fetch
+                .default(`${this.url}/startup`, {
+                    method: "GET",
+                    headers: this.headers
+                })
+                .then(async (res) => {
+                    const json = await res.json();
+                    if (res.status === 200) {
+                        return resolve(json.meta.startup_command);
+                    } else {
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
     }
 
     public getStartCommandRaw(): Promise<string> {
         return new Promise((resolve, reject) => {
-            fetch.default(`${this.url}/startup`, {
-                method: 'GET',
-                headers: this.headers
-            }).then(async res => {
-                const json = await res.json();
-                if (res.status === 200) {
-                    return resolve(json.meta.raw_startup_command);
-                } else {
-                    return reject(json)
-                }
-            }).catch(reject)
-        })
+            fetch
+                .default(`${this.url}/startup`, {
+                    method: "GET",
+                    headers: this.headers
+                })
+                .then(async (res) => {
+                    const json = await res.json();
+                    if (res.status === 200) {
+                        return resolve(json.meta.raw_startup_command);
+                    } else {
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
     }
 
     // Backups
-
-    
-
 }
