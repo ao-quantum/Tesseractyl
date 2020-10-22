@@ -15,7 +15,7 @@ export function getServers(url: string, apikey: string): Promise<Collection<stri
             let servers: Collection<string, Server> = new Collection();
             res.data.forEach((server: ServerInterface) => {
                 //servers.push(new Server(server.attributes.uuid, url, apikey));
-                servers.set(server.attributes.uuid, new Server(server.attributes.uuid, url, apikey))
+                servers.set(server.attributes.uuid, new Server(server.attributes.uuid, url, apikey, server.attributes))
             });
             return resolve(servers);
         }).catch(reject)
