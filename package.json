@@ -1,8 +1,8 @@
 {
   "name": "tesseractyl",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.2",
+  "description": "The simplified, promise based Pterodactyl API Wrapper for Node.js, without any hassle.",
+  "main": "lib/index.js",
   "files": [
     "lib/**/*"
   ],
@@ -30,6 +30,7 @@
       "name": "Akash Deb"
     }
   ],
+  "types": "lib/index.d.ts",
   "bugs": {
     "url": "https://github.com/debakash/Tesseractyl/issues"
   },

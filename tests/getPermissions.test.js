@@ -5,3 +5,8 @@ test('get system permissions', () => {
     let Client = new index.default.Client(config.apikey, config.panelURL);
     expect(Client.getPermissions()).resolves.toBeInstanceOf(Object)
 })
+
+test('incorrect usage of get system permissions', () => {
+    let Client = new index.default.Client();
+    expect(Client.getPermissions()).rejects.toBeInstanceOf(Object)
+})

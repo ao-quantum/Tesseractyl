@@ -2,3 +2,4 @@ node_modules/
 lib/
 tests/config.json
 test.js
+coverage/
