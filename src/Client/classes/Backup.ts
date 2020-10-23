@@ -20,24 +20,7 @@ export class Backup {
             "Content-Type": "application/json",
             Authorization: `Bearer ${this.apiKey}`
         };
-        this.attributes = {};
-
-        fetch
-            .default(`${this.url}`, {
-                method: "GET",
-                headers: this.headers
-            })
-            .then(async (res) => {
-                const json = await res.json();
-                if (res.status === 200) {
-                    this.attributes = json.attributes;
-                } else {
-                    throw new Error("Unable to fetch backup from panel.");
-                }
-            })
-            .catch((err) => {
-                throw err;
-            });
+        this.attributes = data;
     }
 
     public download(): Promise<string> {
@@ -60,20 +43,22 @@ export class Backup {
         });
     }
 
-    public delete(): Promise<boolean | string> {
+    public delete(): Promise<boolean> {
         // tslint:disable-next-line: no-shadowed-variable
         return new Promise((resolve, reject) => {
-            fetch.default(`${this.url}/delete`, {
-                method: 'DELETE',
-                headers: this.headers
-            }).then(async res => {
-                if (res.status === 204) {
-                    return resolve(true)
-                } else {
-                    return reject(await res.json());
-                }
-            }).catch(reject)
-        })
+            fetch
+                .default(`${this.url}`, {
+                    method: "DELETE",
+                    headers: this.headers
+                })
+                .then(async (res) => {
+                    if (res.status === 204) {
+                        return resolve(true);
+                    } else {
+                        return reject(await res.json());
+                    }
+                })
+                .catch(reject);
+        });
     }
-
 }
