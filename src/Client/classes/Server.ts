@@ -1,4 +1,6 @@
 import {
+    BackupAttributes,
+    BackupInterface,
     DatabaseInterface,
     ServerAllocationsData,
     ServerAttributes,
@@ -8,6 +10,7 @@ import {
 import * as fetch from "node-fetch";
 import Collection from "@discordjs/collection";
 import { Database } from "./Database";
+import { Backup } from "./Backup";
 
 export class Server {
     private readonly uuid: string;
@@ -33,7 +36,7 @@ export class Server {
 
     // Root paths
 
-    public sendCommand(command: string): Promise<boolean | string> {
+    public sendCommand(command: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             fetch
                 .default(`${this.url}/command`, {
@@ -58,7 +61,7 @@ export class Server {
         });
     }
 
-    public sendPowerComamnd(signal: "start" | "stop" | "restart" | "kill"): Promise<boolean | string> {
+    public sendPowerComamnd(signal: "start" | "stop" | "restart" | "kill"): Promise<boolean> {
         return new Promise((resolve, reject) => {
             fetch
                 .default(`${this.url}/power`, {
@@ -85,7 +88,7 @@ export class Server {
 
     // Settings paths
 
-    public rename(name: string): Promise<boolean | string> {
+    public rename(name: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             fetch
                 .default(`${this.url}/settings/rename`, {
@@ -106,7 +109,7 @@ export class Server {
         });
     }
 
-    public reinstall(): Promise<boolean | string> {
+    public reinstall(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             fetch
                 .default(`${this.url}/settings/reinstall`, {
@@ -152,7 +155,7 @@ export class Server {
         });
     }
 
-    public createDatabase(name: string, allowedHosts?: string): Promise<Database | Object> {
+    public createDatabase(name: string, allowedHosts?: string): Promise<Database> {
         return new Promise((resolve, reject) => {
             fetch
                 .default(`${this.url}/databases`, {
@@ -240,4 +243,53 @@ export class Server {
     }
 
     // Backups
+
+    public getBackups(): Promise<Collection<string, Backup>> {
+        return new Promise((resolve, reject) => {
+            fetch
+                .default(`${this.url}/backups`, {
+                    method: "GET",
+                    headers: this.headers
+                })
+                .then(async (res) => {
+                    const json = await res.json();
+                    if (res.status === 200) {
+                        const collection: Collection<string, Backup> = new Collection();
+                        json.data.forEach((backup: BackupInterface) => {
+                            collection.set(
+                                backup.attributes.uuid,
+                                new Backup(backup.attributes.uuid, this.url, this.apikey, backup.attributes)
+                            );
+                        });
+                        return resolve(collection);
+                    } else {
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
+    }
+
+    public createBackup(name: string, ignoredFiles: string): Promise<Backup> {
+        return new Promise((resolve, reject) => {
+            fetch
+                .default(`${this.url}/backups`, {
+                    method: "POST",
+                    headers: this.headers,
+                    body: JSON.stringify({
+                        name,
+                        ignored_files: ignoredFiles
+                    })
+                })
+                .then(async (res) => {
+                    const json: BackupInterface = await res.json();
+                    if (res.status === 200) {
+                        return resolve(new Backup(json.attributes.uuid, this.url, this.apikey, json.attributes));
+                    } else {
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
+    }
 }
