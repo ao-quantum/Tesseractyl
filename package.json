@@ -10,7 +10,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "build": "rm -rf ./lib && tsc",
-    "test": "jest ./tests --config=jest.config.js --coverage"
+    "test": "jest ./tests --config=jest.config.js --coverage",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
