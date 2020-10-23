@@ -45,7 +45,7 @@ export class Database {
         });
     }
 
-    public delete(): Promise<boolean | string> {
+    public delete(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             fetch
                 .default(`${this.url}`, {
