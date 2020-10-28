@@ -36,7 +36,11 @@ export class Backup {
                     if (res.status === 200) {
                         return resolve(json.attributes.url);
                     } else {
-                        return reject(new Error("Unable to download backup"));
+                        if (json.errors) {
+                            return reject(new Error(`${json.errors[0].code}: ${json.errors[0].detail}`));
+                        } else {
+                            reject();
+                        }
                     }
                 })
                 .catch(reject);
@@ -55,7 +59,12 @@ export class Backup {
                     if (res.status === 204) {
                         return resolve(true);
                     } else {
-                        return reject(await res.json());
+                        const json = await res.json();
+                        if (json.errors) {
+                            return reject(new Error(`${json.errors[0].code}: ${json.errors[0].detail}`));
+                        } else {
+                            reject();
+                        }
                     }
                 })
                 .catch(reject);

@@ -33,12 +33,15 @@ export class Database {
                     headers: this.headers
                 })
                 .then(async (res) => {
+                    const json = await res.json();
                     if (res.status === 200) {
-                        const json = await res.json();
                         return resolve(json.attributes.relationships.password.attributes.password);
                     } else {
-                        const json = await res.json();
-                        return reject(json);
+                        if (json.errors) {
+                            return reject(new Error(`${json.errors[0].code}: ${json.errors[0].detail}`));
+                        } else {
+                            reject();
+                        }
                     }
                 })
                 .catch(reject);
@@ -57,7 +60,11 @@ export class Database {
                         return resolve(true);
                     } else {
                         const json = await res.json();
-                        return reject(json);
+                        if (json.errors) {
+                            return reject(new Error(`${json.errors[0].code}: ${json.errors[0].detail}`));
+                        } else {
+                            reject();
+                        }
                     }
                 })
                 .catch(reject);
