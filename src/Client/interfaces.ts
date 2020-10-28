@@ -12,7 +12,7 @@ export interface ServerVariableAttributes {
     is_editable: boolean;
     rules: string;
 }
-export interface ServerVariablesData {
+export interface ServerVariable {
     object: "egg_variable";
     attributes: ServerVariableAttributes;
 }
@@ -30,7 +30,7 @@ export interface ServerAllocationAttributes {
     notes: string | null;
     is_default: boolean;
 }
-export interface ServerAllocationsData {
+export interface ServerAllocation {
     object: "allocation";
     attributes: ServerAllocationAttributes;
 }
@@ -69,11 +69,11 @@ export interface ServerAttributes {
     relationships: {
         allocations: {
             object: "list";
-            data: ServerAllocationsData[];
+            data: ServerAllocation[];
         };
         variables: {
             object: "list";
-            data: ServerVariablesData[];
+            data: ServerVariable[];
         };
     };
 }

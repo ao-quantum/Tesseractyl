@@ -2,15 +2,16 @@ import {
     BackupAttributes,
     BackupInterface,
     DatabaseInterface,
-    ServerAllocationsData,
+    ServerAllocation,
     ServerAttributes,
     ServerVariableAttributes,
-    ServerVariablesData
+    ServerVariable
 } from "../interfaces";
 import * as fetch from "node-fetch";
 import Collection from "@discordjs/collection";
 import { Database } from "./Database";
 import { Backup } from "./Backup";
+import { Allocation } from "./Allocation";
 
 export class Server {
     private readonly uuid: string;
@@ -192,7 +193,7 @@ export class Server {
                     const json = await res.json();
                     if (res.status === 200) {
                         const vars: ServerVariableAttributes[] = [];
-                        json.data.forEach((variable: ServerVariablesData) => {
+                        json.data.forEach((variable: ServerVariable) => {
                             vars.push(variable.attributes);
                         });
                         return resolve(vars);
@@ -285,6 +286,40 @@ export class Server {
                     const json: BackupInterface = await res.json();
                     if (res.status === 200) {
                         return resolve(new Backup(json.attributes.uuid, this.url, this.apikey, json.attributes));
+                    } else {
+                        return reject(json);
+                    }
+                })
+                .catch(reject);
+        });
+    }
+
+    // Allocations
+
+    getAllocations(): Promise<Collection<string, Allocation>> {
+        return new Promise((resolve, reject) => {
+            fetch
+                .default(`${this.url}/network/allocations`, {
+                    method: "GET",
+                    headers: this.headers
+                })
+                .then(async (res) => {
+                    const json = await res.json();
+                    if (res.status === 200) {
+                        const collection: Collection<string, Allocation> = new Collection();
+                        json.data.forEach((allocation: ServerAllocation) => {
+                            collection.set(
+                                allocation.attributes.id.toString(),
+                                new Allocation(
+                                    this.uuid,
+                                    allocation.attributes.id.toString(),
+                                    this.url,
+                                    this.apikey,
+                                    allocation.attributes
+                                )
+                            );
+                        });
+                        return resolve(collection);
                     } else {
                         return reject(json);
                     }
