@@ -1,5 +1,4 @@
 import {
-    BackupAttributes,
     BackupInterface,
     DatabaseInterface,
     ServerAllocation,
@@ -17,20 +16,12 @@ export class Server {
     private readonly uuid: string;
     private readonly url: string;
     private readonly apikey: string;
-    private readonly headers: {
-        [key: string]: any;
-    };
     public readonly attributes;
 
     constructor(uuid: string, url: string, apiKey: string, data: ServerAttributes) {
         this.uuid = uuid;
         this.url = `${url}/api/client/servers/${this.uuid}`;
         this.apikey = apiKey;
-        this.headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.apikey}`
-        };
 
         this.attributes = data;
     }
@@ -94,7 +85,11 @@ export class Server {
             fetch
                 .default(`${this.url}/settings/rename`, {
                     method: "POST",
-                    headers: this.headers,
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    },
                     body: JSON.stringify({
                         name: `${name}`
                     })
@@ -115,7 +110,11 @@ export class Server {
             fetch
                 .default(`${this.url}/settings/reinstall`, {
                     method: "POST",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     if (res.status === 204) {
@@ -134,7 +133,11 @@ export class Server {
             fetch
                 .default(`${this.url}/databases`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     if (res.status === 200) {
@@ -161,7 +164,11 @@ export class Server {
             fetch
                 .default(`${this.url}/databases`, {
                     method: "POST",
-                    headers: this.headers,
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    },
                     body: JSON.stringify({
                         database: `${name}`,
                         remote: `${allowedHosts ? `${allowedHosts}` : `%`}`
@@ -187,7 +194,11 @@ export class Server {
             fetch
                 .default(`${this.url}/startup`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -210,7 +221,11 @@ export class Server {
             fetch
                 .default(`${this.url}/startup`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -229,7 +244,11 @@ export class Server {
             fetch
                 .default(`${this.url}/startup`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -250,7 +269,11 @@ export class Server {
             fetch
                 .default(`${this.url}/backups`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -276,7 +299,11 @@ export class Server {
             fetch
                 .default(`${this.url}/backups`, {
                     method: "POST",
-                    headers: this.headers,
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    },
                     body: JSON.stringify({
                         name,
                         ignored_files: ignoredFiles
@@ -301,7 +328,11 @@ export class Server {
             fetch
                 .default(`${this.url}/network/allocations`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();

@@ -6,9 +6,6 @@ export class Allocation {
     private readonly id: string;
     private readonly url: string;
     private readonly apikey: string;
-    private readonly headers: {
-        [key: string]: any;
-    };
     public readonly attributes;
 
     constructor(
@@ -22,11 +19,6 @@ export class Allocation {
         this.id = allocationId;
         this.url = `${serverURL}/network/allocations/${allocationId}`;
         this.apikey = apiKey;
-        this.headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.apikey}`
-        };
 
         this.attributes = data;
     }
@@ -36,7 +28,11 @@ export class Allocation {
             fetch
                 .default(`${this.url}`, {
                     method: "POST",
-                    headers: this.headers,
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    },
                     body: JSON.stringify({
                         notes: note
                     })
@@ -62,7 +58,11 @@ export class Allocation {
             fetch
                 .default(`${this.url}/primary`, {
                     method: "POST",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -85,7 +85,11 @@ export class Allocation {
             fetch
                 .default(`${this.url}`, {
                     method: "DELETE",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     if (res.status === 204) {

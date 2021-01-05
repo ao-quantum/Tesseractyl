@@ -6,21 +6,13 @@ export class Database {
     private readonly id: string;
     private readonly url: string;
     private readonly apikey: string;
-    private readonly headers: {
-        [key: string]: any;
-    };
-    public readonly attributes;
+    public readonly attributes: DatabaseAttributes;
 
     constructor(serverId: string, databaseId: string, serverURL: string, apiKey: string, data: DatabaseAttributes) {
         this.serverid = serverId;
         this.id = databaseId;
         this.url = `${serverURL}/databases/${databaseId}`;
         this.apikey = apiKey;
-        this.headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.apikey}`
-        };
 
         this.attributes = data;
     }
@@ -30,7 +22,11 @@ export class Database {
             fetch
                 .default(`${this.url}/rotate-password`, {
                     method: "POST",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -53,7 +49,11 @@ export class Database {
             fetch
                 .default(`${this.url}`, {
                     method: "DELETE",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     if (res.status === 204) {

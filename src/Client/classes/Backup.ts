@@ -4,22 +4,14 @@ import { resolve } from "path";
 
 export class Backup {
     private readonly uuid: string;
-    private readonly apiKey: string;
+    private readonly apikey: string;
     private readonly url: string;
-    private readonly headers: {
-        [key: string]: string;
-    };
     public attributes: BackupAttributes | {};
 
     constructor(uuid: string, serverURL: string, apiKey: string, data: BackupAttributes) {
-        this.apiKey = apiKey;
+        this.apikey = apiKey;
         this.uuid = uuid;
         this.url = `${serverURL}/backups/${this.uuid}`;
-        this.headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.apiKey}`
-        };
         this.attributes = data;
     }
 
@@ -29,7 +21,11 @@ export class Backup {
             fetch
                 .default(`${this.url}/download`, {
                     method: "GET",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     const json = await res.json();
@@ -53,7 +49,11 @@ export class Backup {
             fetch
                 .default(`${this.url}`, {
                     method: "DELETE",
-                    headers: this.headers
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.apikey}`
+                    }
                 })
                 .then(async (res) => {
                     if (res.status === 204) {
