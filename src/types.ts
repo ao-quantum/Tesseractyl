@@ -83,6 +83,20 @@ export interface ServerInterface {
     attributes: ServerAttributes;
 }
 
+export interface ServerStats {
+    memory_bytes: number;
+    memory_limit_bytes: number;
+    cpu_absolute: number;
+    network: {
+        rx_bytes: number;
+        tx_bytes: number;
+    };
+    state: ServerState;
+    disk_bytes: number;
+}
+
+export type ServerState = 'starting' | 'running' | 'stopping' | 'offline'
+
 /**
  *
  * System Permissions Interfaces

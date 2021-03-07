@@ -1,4 +1,4 @@
-import { ServerAllocationAttributes } from "../interfaces";
+import { ServerAllocationAttributes } from "../../types";
 import * as fetch from "node-fetch";
 
 export class Allocation {

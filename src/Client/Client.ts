@@ -1,6 +1,6 @@
 import { getServers } from "./system/getServers";
 import { getPermissions } from "./system/getPermissions";
-import { ServerAttributes, SystemPermissionsAttributes } from "./interfaces";
+import { SystemPermissionsAttributes } from "../types";
 import { Server } from "./classes/Server";
 import Collection from "@discordjs/collection";
 

@@ -1,6 +1,5 @@
-import { BackupAttributes } from "../interfaces";
+import { BackupAttributes } from "../../types";
 import * as fetch from "node-fetch";
-import { resolve } from "path";
 
 export class Backup {
     private readonly uuid: string;

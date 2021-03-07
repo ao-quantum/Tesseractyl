@@ -1,7 +1,7 @@
 import Collection from "@discordjs/collection";
 import * as fetch from "node-fetch";
 import { Server } from "../classes/Server";
-import { ServerAttributes, ServerInterface } from "../interfaces";
+import { ServerAttributes, ServerInterface } from "../../types";
 
 export function getServers(url: string, apikey: string): Promise<Collection<string, Server>> {
     return new Promise((resolve, reject) => {
@@ -15,6 +15,7 @@ export function getServers(url: string, apikey: string): Promise<Collection<stri
             })
             .then((res) => res.json())
             .then((res) => {
+                if (!res.data) return reject(new TypeError("Invalid URL or API key"))
                 const servers: Collection<string, Server> = new Collection();
                 res.data.forEach((server: ServerInterface) => {
                     servers.set(

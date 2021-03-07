@@ -4,19 +4,21 @@ import {
     ServerAllocation,
     ServerAttributes,
     ServerVariableAttributes,
-    ServerVariable
-} from "../interfaces";
+    ServerVariable,
+} from '../../types'
 import * as fetch from "node-fetch";
 import Collection from "@discordjs/collection";
 import { Database } from "./Database";
 import { Backup } from "./Backup";
 import { Allocation } from "./Allocation";
+import { WebSocket } from '../ws/WebSocket';
 
 export class Server {
     private readonly uuid: string;
     private readonly url: string;
     private readonly apikey: string;
-    public readonly attributes;
+    public attributes;
+    public websocket: WebSocket;
 
     constructor(uuid: string, url: string, apiKey: string, data: ServerAttributes) {
         this.uuid = uuid;
@@ -24,6 +26,7 @@ export class Server {
         this.apikey = apiKey;
 
         this.attributes = data;
+        this.websocket = new WebSocket(this.url, this.apikey)
     }
 
     // Root paths

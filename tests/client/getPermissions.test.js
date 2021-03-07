@@ -8,5 +8,5 @@ test('get system permissions', () => {
 
 test('incorrect usage of get system permissions', () => {
     let Client = new index.default.Client();
-    expect(Client.getPermissions()).rejects.toBeInstanceOf(Object)
+    expect(Client.getPermissions()).rejects.toBeInstanceOf(null || undefined)
 })

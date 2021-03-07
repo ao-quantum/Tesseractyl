@@ -1,5 +1,5 @@
 import * as fetch from "node-fetch";
-import { SystemPermissions } from "../interfaces";
+import { SystemPermissions } from "../../types";
 
 export function getPermissions(url: string, apikey: string): Promise<SystemPermissions> {
     return new Promise((resolve, reject) => {
@@ -14,6 +14,7 @@ export function getPermissions(url: string, apikey: string): Promise<SystemPermi
             })
             .then((res) => res.json())
             .then((perms) => {
+                if (!perms || (perms.errors && perms.errors.length > 0)) return reject();
                 return resolve(perms);
             })
             .catch(reject);

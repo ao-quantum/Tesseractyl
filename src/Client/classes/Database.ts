@@ -1,4 +1,4 @@
-import { DatabaseAttributes } from "../interfaces";
+import { DatabaseAttributes } from "../../types";
 import * as fetch from "node-fetch";
 
 export class Database {
